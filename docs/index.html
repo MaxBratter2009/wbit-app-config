@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Bite — Station Manager</title>
+<style>
+  :root{
+    --pink:#EC0F87; --pink-d:#C40C71; --ink:#141018; --muted:#6b6472;
+    --bg:#faf7fa; --card:#ffffff; --border:#ece6ec; --ok:#12924f; --err:#d21f4b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+  header{background:var(--pink);color:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+  header .brand{font-weight:800;letter-spacing:.5px}
+  header .brand small{font-weight:600;opacity:.85;letter-spacing:1px}
+  header button{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:8px;padding:7px 12px;font-weight:700;cursor:pointer}
+  main{max-width:900px;margin:0 auto;padding:20px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:16px}
+  h2{font-size:15px;text-transform:uppercase;letter-spacing:1px;color:var(--pink-d);margin:0 0 14px}
+  h3{margin:0 0 4px;font-size:16px}
+  label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin:10px 0 4px;text-transform:uppercase;letter-spacing:.4px}
+  input[type=text],input[type=url],input[type=email],textarea,select{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font-size:15px;font-family:inherit;background:#fff;color:var(--ink)}
+  textarea{min-height:80px;resize:vertical}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .row > div{flex:1;min-width:160px}
+  .check{display:flex;align-items:center;gap:8px;margin-top:12px}
+  .check input{width:18px;height:18px}
+  .check label{margin:0;text-transform:none;letter-spacing:0;font-size:14px;color:var(--ink)}
+  .item{border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;background:#fdfbfd}
+  .item .item-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .btn{background:var(--pink);color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer;font-size:14px}
+  .btn:disabled{opacity:.5;cursor:default}
+  .btn-ghost{background:transparent;color:var(--pink);border:1px solid var(--pink)}
+  .btn-sm{padding:6px 10px;font-size:13px;border-radius:8px}
+  .btn-danger{background:transparent;color:var(--err);border:1px solid var(--err)}
+  .savebar{position:sticky;bottom:0;background:linear-gradient(0deg,var(--bg) 70%,transparent);padding:16px 0;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .muted{color:var(--muted);font-size:13px;line-height:1.5}
+  .toast{padding:10px 14px;border-radius:10px;font-weight:700;font-size:14px}
+  .toast.ok{background:#e6f6ee;color:var(--ok)}
+  .toast.err{background:#fdeaf0;color:var(--err)}
+  .gate{max-width:520px;margin:8vh auto;padding:0 20px}
+  .gate .card{padding:24px}
+  details{margin-top:12px}
+  summary{cursor:pointer;font-weight:700;color:var(--pink-d);font-size:14px}
+  details ol{font-size:13px;color:var(--muted);line-height:1.7;padding-left:18px}
+  code{background:#f2eef2;padding:1px 5px;border-radius:5px;font-size:12px}
+  a{color:var(--pink-d)}
+  .hidden{display:none}
+  .tag-note{font-size:11px;color:var(--muted);margin-top:2px}
+</style>
+</head>
+<body>
+
+<!-- LOGIN GATE -->
+<div id="gate" class="gate">
+  <div class="card">
+    <div style="text-align:center;margin-bottom:8px">
+      <div style="display:inline-block;background:var(--pink);color:#fff;font-weight:900;padding:10px 16px;border-radius:12px">95.3 THE BITE</div>
+    </div>
+    <h3 style="text-align:center">Station Manager</h3>
+    <p class="muted" style="text-align:center">Enter your editor key to unlock editing. It's stored only in this browser and never shared.</p>
+    <label for="token">Editor access key</label>
+    <input id="token" type="text" placeholder="github_pat_..." autocomplete="off" spellcheck="false" />
+    <div class="check"><input type="checkbox" id="remember" checked /><label for="remember">Keep me signed in on this device</label></div>
+    <div style="margin-top:16px"><button class="btn" id="unlock" style="width:100%">Unlock editing</button></div>
+    <div id="gate-msg" style="margin-top:12px"></div>
+    <details>
+      <summary>How do I get my editor key? (one time)</summary>
+      <ol>
+        <li>Go to <a href="https://github.com/settings/personal-access-tokens/new" target="_blank">GitHub → Fine-grained tokens</a> (sign in as the repo owner).</li>
+        <li>Token name: <code>WBIT admin</code>. Expiration: your choice.</li>
+        <li>Resource owner: your account. Repository access: <b>Only select repositories</b> → <code>wbit-app-config</code>.</li>
+        <li>Permissions → Repository permissions → <b>Contents</b>: <b>Read and write</b>.</li>
+        <li>Click <b>Generate token</b>, copy it, paste above.</li>
+      </ol>
+      <p class="muted">Keep this key private — anyone with it can edit the station content.</p>
+    </details>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="hidden">
+  <header>
+    <div class="brand">95.3 THE BITE <small>· STATION MANAGER</small></div>
+    <div>
+      <button id="reload">Reload</button>
+      <button id="logout">Sign out</button>
+    </div>
+  </header>
+  <main>
+    <div id="loadmsg" class="muted">Loading current content…</div>
+    <div id="sections"></div>
+    <div class="savebar">
+      <button class="btn" id="save">Save changes</button>
+      <span id="save-msg"></span>
+    </div>
+    <p class="muted">Changes are committed to <code>station.json</code> and go live in the app on next launch. The app also refreshes in the background while open.</p>
+  </main>
+</div>
+
+<script>
+const OWNER="MaxBratter2009", REPO="wbit-app-config", FILE="station.json", BRANCH="main";
+const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
+let TOKEN=null, SHA=null, CONFIG=null;
+
+const $=(id)=>document.getElementById(id);
+function b64encodeUtf8(s){return btoa(unescape(encodeURIComponent(s)));}
+function b64decodeUtf8(s){return decodeURIComponent(escape(atob(s.replace(/\n/g,""))));}
+
+// ---------- Auth ----------
+function initGate(){
+  const saved=localStorage.getItem("wbit_admin_token");
+  if(saved){TOKEN=saved; enterApp();}
+  $("unlock").onclick=async()=>{
+    const t=$("token").value.trim();
+    if(!t){return;}
+    $("gate-msg").innerHTML='<div class="toast">Checking…</div>';
+    TOKEN=t;
+    const ok=await load(true);
+    if(ok){
+      if($("remember").checked) localStorage.setItem("wbit_admin_token",t);
+      enterApp();
+    }else{
+      TOKEN=null;
+      $("gate-msg").innerHTML='<div class="toast err">Couldn\'t unlock. Check the key has Contents: Read &amp; write on this repo.</div>';
+    }
+  };
+  $("token").addEventListener("keydown",e=>{if(e.key==="Enter")$("unlock").click();});
+}
+function enterApp(){ $("gate").classList.add("hidden"); $("app").classList.remove("hidden"); if(!CONFIG) load().then(renderAll); else renderAll(); }
+$("logout")?.addEventListener("click",()=>{localStorage.removeItem("wbit_admin_token");location.reload();});
+$("reload")?.addEventListener("click",async()=>{ $("save-msg").innerHTML=""; await load(); renderAll(); });
+
+// ---------- GitHub I/O ----------
+async function load(silent){
+  try{
+    const r=await fetch(API+"?ref="+BRANCH,{headers:{Authorization:"Bearer "+TOKEN,Accept:"application/vnd.github+json"}});
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    const j=await r.json();
+    SHA=j.sha;
+    CONFIG=JSON.parse(b64decodeUtf8(j.content));
+    if(!silent) $("loadmsg").classList.add("hidden");
+    return true;
+  }catch(e){ if(!silent) $("loadmsg").innerHTML='<div class="toast err">Load failed: '+e.message+'</div>'; return false; }
+}
+async function save(){
+  $("save").disabled=true; $("save-msg").innerHTML='<span class="toast">Saving…</span>';
+  try{
+    const body={message:"Update station.json via Station Manager",content:b64encodeUtf8(JSON.stringify(CONFIG,null,2)),sha:SHA,branch:BRANCH};
+    const r=await fetch(API,{method:"PUT",headers:{Authorization:"Bearer "+TOKEN,Accept:"application/vnd.github+json"},body:JSON.stringify(body)});
+    if(!r.ok){const t=await r.text();throw new Error("HTTP "+r.status+" "+t.slice(0,120));}
+    const j=await r.json(); SHA=j.content.sha;
+    $("save-msg").innerHTML='<span class="toast ok">Saved ✓ — live in the app on next launch</span>';
+  }catch(e){ $("save-msg").innerHTML='<span class="toast err">Save failed: '+e.message+'</span>'; }
+  $("save").disabled=false;
+}
+$("save")?.addEventListener("click",save);
+
+// ---------- Schema ----------
+const DAYS=[["0","Sunday"],["1","Monday"],["2","Tuesday"],["3","Wednesday"],["4","Thursday"],["5","Friday"],["6","Saturday"]];
+const LEVELS=[["info","Info"],["live","Live"],["alert","Alert"]];
+const PROVIDERS=[["live365","Live365"],["icecast","Icecast"],["generic","Generic"]];
+
+// object sections: [key,label,type,opts]
+const OBJ_SECTIONS=[
+  {key:"station",title:"Station info",fields:[
+    ["name","Name","text"],["shortName","Short name","text"],["tagline","Tagline","text"],
+    ["frequency","Frequency","text"],["callSign","Call sign","text"],
+    ["description","Description","textarea"],["website","Website","url"],
+    ["email","Contact email","text"],["phone","Phone","text"],["address","Address","text"],
+    ["logoUrl","Logo URL","url"]]},
+  {key:"stream",title:"Stream",fields:[
+    ["streamUrl","Stream URL","url"],["provider","Provider","select",PROVIDERS],
+    ["live365StationId","Live365 station ID","text"],["nowPlayingUrl","Now-playing URL (optional override)","url"],
+    ["defaultArtworkUrl","Default artwork URL","url"],["useStationArtworkOnly","Always use station logo as artwork (ignore album art)","bool"]]},
+  {key:"socials",title:"Socials (handle or full URL)",fields:[
+    ["instagram","Instagram","text"],["tiktok","TikTok","text"],["facebook","Facebook","text"],
+    ["x","X / Twitter","text"],["youtube","YouTube","text"],["discord","Discord","text"]]},
+  {key:"support",title:"Support",fields:[
+    ["donateUrl","Donate URL","url"],["merchUrl","Merch URL","url"],["label","Button label","text"]]},
+  {key:"request",title:"Song requests",fields:[
+    ["enabled","Enable requests","bool"],["email","Send requests to email","text"],["webhookUrl","Or POST to webhook URL","url"]]},
+];
+
+// array sections
+const ARR_SECTIONS=[
+  {key:"announcements",title:"Announcements",singular:"announcement",fields:[
+    ["text","Message","textarea"],["level","Style","select",LEVELS],["url","Tap link (optional)","url"],["expiresAt","Hide after (ISO date, optional)","text"],["id","ID","text"]]},
+  {key:"schedule",title:"Schedule",singular:"show slot",fields:[
+    ["title","Title","text"],["host","Host","text"],["showId","Linked show ID","text"],
+    ["day","Day","select",DAYS],["start","Start (HH:MM 24h)","text"],["end","End (HH:MM 24h)","text"],["id","ID","text"]]},
+  {key:"shows",title:"Shows / hosts",singular:"show",fields:[
+    ["name","Name","text"],["host","Host","text"],["description","Description","textarea"],
+    ["airtime","Airtime (free text)","text"],["imageUrl","Image URL","url"],["tags","Tags (comma separated)","tags"],
+    ["spotifyUrl","Spotify URL (past episodes)","url"],["liveMetadataMatch","Live metadata marker (optional)","text"],["id","ID","text"]]},
+  {key:"polls",title:"Polls",singular:"poll",fields:[
+    ["question","Question","text"],["showId","Linked show ID (optional)","text"],
+    ["options","Options","options"],["allowMultiple","Allow multiple answers","bool"],
+    ["publishedAt","Publish at (ISO date)","text"],["closesAt","Close at (ISO date, optional)","text"],
+    ["webhookUrl","Collect votes at webhook (optional)","url"],["id","ID","text"]]},
+  {key:"events",title:"Events",singular:"event",fields:[
+    ["title","Title","text"],["date","Date/time (ISO)","text"],["endDate","End (ISO, optional)","text"],
+    ["location","Location","text"],["description","Description","textarea"],["imageUrl","Image URL","url"],["url","Link","url"],["id","ID","text"]]},
+  {key:"network",title:"USN Network links",singular:"link",fields:[
+    ["title","Title","text"],["subtitle","Subtitle","text"],["imageUrl","Image URL","url"],
+    ["url","External link","url"],["embedUrl","Embed URL (Instagram post/reel, Spotify, web — optional)","url"],["id","ID","text"]]},
+];
+
+// ---------- Rendering ----------
+function field(obj,def){
+  const [key,label,type,opts]=def;
+  const wrap=document.createElement("div");
+  if(type==="bool"){
+    wrap.className="check";
+    const cb=document.createElement("input"); cb.type="checkbox"; cb.checked=!!obj[key];
+    cb.onchange=()=>obj[key]=cb.checked;
+    const lb=document.createElement("label"); lb.textContent=label;
+    wrap.append(cb,lb); return wrap;
+  }
+  const lb=document.createElement("label"); lb.textContent=label; wrap.append(lb);
+  if(type==="options"){ wrap.append(optionsEditor(obj,key)); return wrap; }
+  let inp;
+  if(type==="textarea"){ inp=document.createElement("textarea"); }
+  else if(type==="select"){ inp=document.createElement("select"); (opts||[]).forEach(([v,t])=>{const o=document.createElement("option");o.value=v;o.textContent=t;inp.append(o);}); }
+  else { inp=document.createElement("input"); inp.type=(type==="url"?"url":type==="email"?"email":"text"); }
+  if(type==="tags"){ inp.value=Array.isArray(obj[key])?obj[key].join(", "):(obj[key]||""); inp.oninput=()=>obj[key]=inp.value.split(",").map(s=>s.trim()).filter(Boolean);
+    const note=document.createElement("div");note.className="tag-note";note.textContent="Separate with commas"; wrap.append(inp,note); return wrap; }
+  if(type==="select"){ inp.value=obj[key]!=null?String(obj[key]):(opts&&opts[0]?opts[0][0]:""); inp.onchange=()=>{ obj[key]= (key==="day")?parseInt(inp.value,10):inp.value; }; }
+  else { inp.value=obj[key]!=null?obj[key]:""; inp.oninput=()=>obj[key]=inp.value; }
+  wrap.append(inp); return wrap;
+}
+
+function optionsEditor(poll,key){
+  if(!Array.isArray(poll[key])) poll[key]=[];
+  const box=document.createElement("div");
+  function draw(){
+    box.innerHTML="";
+    poll[key].forEach((opt,i)=>{
+      const row=document.createElement("div"); row.className="row"; row.style.marginBottom="6px";
+      const l=document.createElement("input"); l.type="text"; l.placeholder="Option label"; l.value=opt.label||""; l.oninput=()=>opt.label=l.value;
+      const idi=document.createElement("input"); idi.type="text"; idi.placeholder="id"; idi.style.maxWidth="120px"; idi.value=opt.id||""; idi.oninput=()=>opt.id=idi.value;
+      const del=document.createElement("button"); del.className="btn btn-sm btn-danger"; del.textContent="✕"; del.onclick=()=>{poll[key].splice(i,1);draw();};
+      const c1=document.createElement("div");c1.append(l); const c2=document.createElement("div");c2.style.flex="0 0 130px";c2.append(idi); const c3=document.createElement("div");c3.style.flex="0";c3.append(del);
+      row.append(c1,c2,c3); box.append(row);
+    });
+    const add=document.createElement("button"); add.className="btn btn-sm btn-ghost"; add.textContent="+ Add option";
+    add.onclick=()=>{poll[key].push({id:"opt"+(poll[key].length+1),label:""});draw();};
+    box.append(add);
+  }
+  draw(); return box;
+}
+
+function objSection(sec){
+  const card=document.createElement("div"); card.className="card";
+  const h=document.createElement("h2"); h.textContent=sec.title; card.append(h);
+  if(!CONFIG[sec.key]) CONFIG[sec.key]={};
+  const obj=CONFIG[sec.key];
+  const row=document.createElement("div"); row.className="row";
+  sec.fields.forEach(def=>{ const f=field(obj,def); const col=document.createElement("div"); col.append(f); row.append(col); });
+  card.append(row); return card;
+}
+
+function arrSection(sec){
+  const card=document.createElement("div"); card.className="card";
+  const h=document.createElement("h2"); h.textContent=sec.title; card.append(h);
+  if(!Array.isArray(CONFIG[sec.key])) CONFIG[sec.key]=[];
+  const list=document.createElement("div");
+  function draw(){
+    list.innerHTML="";
+    CONFIG[sec.key].forEach((item,i)=>{
+      const it=document.createElement("div"); it.className="item";
+      const head=document.createElement("div"); head.className="item-head";
+      const title=document.createElement("h3"); title.textContent=(item.title||item.name||item.question||item.text||sec.singular)+"";
+      const del=document.createElement("button"); del.className="btn btn-sm btn-danger"; del.textContent="Delete"; del.onclick=()=>{CONFIG[sec.key].splice(i,1);draw();};
+      head.append(title,del); it.append(head);
+      const row=document.createElement("div"); row.className="row";
+      sec.fields.forEach(def=>{ const col=document.createElement("div"); col.append(field(item,def)); row.append(col); });
+      it.append(row); list.append(it);
+    });
+    const add=document.createElement("button"); add.className="btn btn-ghost"; add.textContent="+ Add "+sec.singular;
+    add.onclick=()=>{ const o={}; if(sec.fields.some(f=>f[0]==="id")) o.id=sec.key.slice(0,3)+"-"+Date.now().toString(36); CONFIG[sec.key].push(o); draw(); };
+    list.append(add);
+  }
+  draw(); card.append(list); return card;
+}
+
+function renderAll(){
+  const root=$("sections"); root.innerHTML="";
+  OBJ_SECTIONS.forEach(s=>root.append(objSection(s)));
+  ARR_SECTIONS.forEach(s=>root.append(arrSection(s)));
+}
+
+initGate();
+</script>
+</body>
+</html>
