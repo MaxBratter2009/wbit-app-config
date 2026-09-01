@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "station": {
+    "name": "WBIT 95.3 FM",
+    "shortName": "The Bite",
+    "tagline": "USCHOOL RADIO",
+    "frequency": "95.3 FM",
+    "callSign": "WBIT",
+    "description": "WBIT Radio, in partnership with NSU University School, is Florida’s only student-operated high school radio station. Powered by USchool Network (USN), WBIT brings the airwaves to life with music, news, sports, and original shows—all created by students. It’s more than a station: it’s a stage for young voices, a training ground for tomorrow’s media leaders, and a one-of-a-kind connection to our community.",
+    "website": "https://uschoolradio.com",
+    "email": "",
+    "phone": "",
+    "address": "",
+    "logoUrl": "https://media.live365.com/download/b084662d-6f4e-4ac4-809f-92189157a59c.png"
+  },
+  "stream": {
+    "streamUrl": "https://streaming.live365.com/a92967",
+    "provider": "live365",
+    "live365StationId": "a92967",
+    "nowPlayingUrl": "",
+    "defaultArtworkUrl": "https://media.live365.com/download/b084662d-6f4e-4ac4-809f-92189157a59c.png",
+    "useStationArtworkOnly": true
+  },
+  "socials": {
+    "instagram": "",
+    "tiktok": "",
+    "facebook": "",
+    "x": "",
+    "youtube": "",
+    "discord": ""
+  },
+  "support": {
+    "donateUrl": "",
+    "merchUrl": "",
+    "label": "Support The Bite"
+  },
+  "request": {
+    "enabled": true,
+    "email": "mb2057@uschool.nova.edu",
+    "webhookUrl": ""
+  },
+  "announcements": [],
+  "schedule": [
+    {
+      "id": "morning-show-tue",
+      "showId": "morning-show",
+      "title": "The Bite Morning Show",
+      "host": "Max Bratter & Noah Gottlieb",
+      "day": 2,
+      "start": "07:45",
+      "end": "08:00"
+    }
+  ],
+  "shows": [
+    {
+      "id": "morning-show",
+      "name": "The Bite Morning Show",
+      "host": "Max Bratter & Noah Gottlieb",
+      "description": "",
+      "airtime": "Tuesdays 7:45 AM",
+      "tags": [],
+      "spotifyUrl": "https://open.spotify.com/show/5LzI14IyDHpID76pBFvlvA"
+    }
+  ],
+  "events": [],
+  "polls": [
+    {
+      "id": "demo-poll",
+      "showId": "morning-show",
+      "question": "What should The Bite Morning Show play more of?",
+      "options": [
+        { "id": "pop", "label": "Pop hits" },
+        { "id": "hiphop", "label": "Hip-hop" },
+        { "id": "throwbacks", "label": "Throwbacks" },
+        { "id": "student", "label": "Student artists" }
+      ],
+      "allowMultiple": false,
+      "publishedAt": "2026-09-01T12:00:00Z",
+      "closesAt": "",
+      "webhookUrl": ""
+    }
+  ],
+  "network": [
+    {
+      "id": "social-media-show",
+      "title": "USN Social Media Show",
+      "subtitle": "Follow along on Instagram",
+      "url": "https://instagram.com/uschoolnetwork",
+      "embedUrl": ""
+    },
+    {
+      "id": "sharkmedia",
+      "title": "SharkMedia",
+      "subtitle": "USN video & broadcast",
+      "url": "https://uschoolradio.com",
+      "embedUrl": ""
+    }
+  ]
+}
