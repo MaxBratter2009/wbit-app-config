@@ -8,7 +8,7 @@
     "callSign": "WBIT",
     "description": "WBIT Radio, in partnership with NSU University School, is Florida’s only student-operated high school radio station. Powered by USchool Network (USN), WBIT brings the airwaves to life with music, news, sports, and original shows—all created by students. It’s more than a station: it’s a stage for young voices, a training ground for tomorrow’s media leaders, and a one-of-a-kind connection to our community.",
     "website": "https://uschoolradio.com",
-    "email": "",
+    "email": "mb2057@uschool.nova.edu",
     "phone": "",
     "address": "",
     "logoUrl": "https://media.live365.com/download/b084662d-6f4e-4ac4-809f-92189157a59c.png"
@@ -39,7 +39,12 @@
     "email": "mb2057@uschool.nova.edu",
     "webhookUrl": ""
   },
-  "announcements": [],
+  "announcements": [
+    {
+      "id": "ann-mtirm1ly",
+      "text": "TEST"
+    }
+  ],
   "schedule": [
     {
       "id": "morning-show-tue",
@@ -69,10 +74,22 @@
       "showId": "morning-show",
       "question": "What should The Bite Morning Show play more of?",
       "options": [
-        { "id": "pop", "label": "Pop hits" },
-        { "id": "hiphop", "label": "Hip-hop" },
-        { "id": "throwbacks", "label": "Throwbacks" },
-        { "id": "student", "label": "Student artists" }
+        {
+          "id": "pop",
+          "label": "Pop hits"
+        },
+        {
+          "id": "hiphop",
+          "label": "Hip-hop"
+        },
+        {
+          "id": "throwbacks",
+          "label": "Throwbacks"
+        },
+        {
+          "id": "student",
+          "label": "Student artists"
+        }
       ],
       "allowMultiple": false,
       "publishedAt": "2026-09-01T12:00:00Z",
