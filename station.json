@@ -80,5 +80,6 @@
       "url": "https://uschoolradio.com",
       "embedUrl": ""
     }
-  ]
+  ],
+  "pushRegisterUrl": "https://wbit-push.wbit.workers.dev"
 }
