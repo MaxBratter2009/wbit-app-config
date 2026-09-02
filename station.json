@@ -39,13 +39,7 @@
     "email": "mb2057@uschool.nova.edu",
     "webhookUrl": ""
   },
-  "announcements": [
-    {
-      "id": "ann-mtk3k9uv",
-      "level": "live",
-      "text": "We are LIVE"
-    }
-  ],
+  "announcements": [],
   "schedule": [
     {
       "id": "morning-show-tue",
