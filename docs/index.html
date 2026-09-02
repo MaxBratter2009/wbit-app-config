@@ -181,6 +181,8 @@ const OBJ_SECTIONS=[
     ["donateUrl","Donate URL","url"],["merchUrl","Merch URL","url"],["label","Button label","text"]]},
   {key:"request",title:"Song requests",fields:[
     ["enabled","Enable requests","bool"],["email","Send requests to email","text"],["webhookUrl","Or POST to webhook URL","url"]]},
+  {key:"_root",title:"Advanced · Push backend",root:true,fields:[
+    ["pushRegisterUrl","Push backend URL (Cloudflare Worker, e.g. https://wbit-push.you.workers.dev)","url"]]},
 ];
 
 // array sections
@@ -254,8 +256,9 @@ function optionsEditor(poll,key){
 function objSection(sec){
   const card=document.createElement("div"); card.className="card";
   const h=document.createElement("h2"); h.textContent=sec.title; card.append(h);
-  if(!CONFIG[sec.key]) CONFIG[sec.key]={};
-  const obj=CONFIG[sec.key];
+  let obj;
+  if(sec.root){ obj=CONFIG; }
+  else { if(!CONFIG[sec.key]) CONFIG[sec.key]={}; obj=CONFIG[sec.key]; }
   const row=document.createElement("div"); row.className="row";
   sec.fields.forEach(def=>{ const f=field(obj,def); const col=document.createElement("div"); col.append(f); row.append(col); });
   card.append(row); return card;
