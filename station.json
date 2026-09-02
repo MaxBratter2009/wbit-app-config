@@ -56,42 +56,15 @@
       "id": "morning-show",
       "name": "The Bite Morning Show",
       "host": "Max Bratter & Noah Gottlieb",
-      "description": "",
+      "description": "Max and Noah host a fun weekly morning show brining you friendly banter, local and school news, weather, and more.",
       "airtime": "Tuesdays 7:45 AM",
       "tags": [],
-      "spotifyUrl": "https://open.spotify.com/show/5LzI14IyDHpID76pBFvlvA"
+      "spotifyUrl": "https://open.spotify.com/show/5LzI14IyDHpID76pBFvlvA",
+      "liveMetadataMatch": "TBMS"
     }
   ],
   "events": [],
-  "polls": [
-    {
-      "id": "demo-poll",
-      "showId": "morning-show",
-      "question": "What should The Bite Morning Show play more of?",
-      "options": [
-        {
-          "id": "pop",
-          "label": "Pop hits"
-        },
-        {
-          "id": "hiphop",
-          "label": "Hip-hop"
-        },
-        {
-          "id": "throwbacks",
-          "label": "Throwbacks"
-        },
-        {
-          "id": "student",
-          "label": "Student artists"
-        }
-      ],
-      "allowMultiple": false,
-      "publishedAt": "2026-09-01T12:00:00Z",
-      "closesAt": "",
-      "webhookUrl": ""
-    }
-  ],
+  "polls": [],
   "network": [
     {
       "id": "social-media-show",
@@ -102,8 +75,8 @@
     },
     {
       "id": "sharkmedia",
-      "title": "SharkMedia",
-      "subtitle": "USN video & broadcast",
+      "title": "USchool Radio",
+      "subtitle": "ON THE WEB",
       "url": "https://uschoolradio.com",
       "embedUrl": ""
     }
