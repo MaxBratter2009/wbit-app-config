@@ -63,7 +63,15 @@
       "liveMetadataMatch": "TBMS"
     }
   ],
-  "events": [],
+  "events": [
+    {
+      "id": "eve-muhbgn2z",
+      "title": "Homecoming Game Livestream",
+      "date": "2026-10-09T18:00:00-04:00",
+      "location": "USchool Radio",
+      "description": "Join us for the NSU University School Homecoming Game Livestream, here on THE BITE!"
+    }
+  ],
   "polls": [],
   "network": [
     {
