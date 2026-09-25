@@ -39,7 +39,12 @@
     "email": "mb2057@uschool.nova.edu",
     "webhookUrl": ""
   },
-  "announcements": [],
+  "announcements": [
+    {
+      "id": "ann-muhbkifd",
+      "text": "The USCHOOL RADIO APP is NOW AVAILABLE on the App Store!"
+    }
+  ],
   "schedule": [
     {
       "id": "morning-show-tue",
