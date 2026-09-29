@@ -77,7 +77,23 @@
       "description": "Join us for the NSU University School Homecoming Game Livestream, here on THE BITE!"
     }
   ],
-  "polls": [],
+  "polls": [
+    {
+      "id": "pol-mumoi819",
+      "options": [
+        {
+          "id": "opt1",
+          "label": "Ice cold (MAX)"
+        },
+        {
+          "id": "opt2",
+          "label": "Hot!! (Noah)"
+        }
+      ],
+      "question": "How do you take your coffee?",
+      "publishedAt": "2026-09-29T09:00:00"
+    }
+  ],
   "network": [
     {
       "id": "social-media-show",
