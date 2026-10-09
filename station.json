@@ -42,7 +42,8 @@
   "announcements": [
     {
       "id": "ann-muhbkifd",
-      "text": "The USCHOOL RADIO APP is NOW AVAILABLE on the App Store!"
+      "text": "HOMECOMING BROADCAST IS TONIGHT!!",
+      "level": "alert"
     }
   ],
   "schedule": [
