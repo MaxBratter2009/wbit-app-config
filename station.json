@@ -39,13 +39,7 @@
     "email": "mb2057@uschool.nova.edu",
     "webhookUrl": ""
   },
-  "announcements": [
-    {
-      "id": "ann-muhbkifd",
-      "text": "HOMECOMING BROADCAST IS TONIGHT!!",
-      "level": "alert"
-    }
-  ],
+  "announcements": [],
   "schedule": [
     {
       "id": "morning-show-tue",
